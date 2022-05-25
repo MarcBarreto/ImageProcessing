@@ -39,5 +39,10 @@ public class appGenericStuff {
 	        imagem.salvarImagemP1(imagem.dilatarImagemP1(matriz, mascara2), "imagemDilatada2.pbm");
 
 	        imagem.salvarImagemP1(imagem.erodirImagemP1(matriz, mascara1), "imagemErodida1.pbm");
+	        imagem.salvarImagemP1(imagem.realizarAberturaImagemP1(matriz, mascara1), "imagemAbertura1.pbm");
+	        imagem.salvarImagemP1(imagem.realizarAberturaImagemP1(matriz, mascara2), "imagemAbertura2.pbm");
+
+	        imagem.salvarImagemP1(imagem.realizarFechamentoImagemP1(matriz, mascara1), "imagemFechamento1.pbm");
+	        imagem.salvarImagemP1(imagem.realizarFechamentoImagemP1(matriz, mascara2), "imagemFechamento2.pbm");
     }
 }
