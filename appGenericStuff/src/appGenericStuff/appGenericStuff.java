@@ -1,7 +1,17 @@
 package appGenericStuff;
 
+/**
+ * 	@author Denisson Santos Alves de Freitas
+ * 	@author Josiel Alemão Santos Silveira
+ * 	@author Marcelo Henrique Lima Barreto
+ */
+import java.io.IOException;
+
 public class appGenericStuff {
-	public static void main(String[] argv) {
+	public static void main(String[] argv) throws IOException {
+		Imagem imagem = new Imagem("imagem.pbm");
+		//imagem.imprimirMatriz();
+		imagem.salvarImagemP1(imagem.getImagemOriginal(), "novaImagem.pbm");
 		/*int[][] matrizMaior  = new int[5][6];
 		int[][] matrizMenor = new int[3][3];
 		for(int i = 0; i < matrizMaior.length; i++) {

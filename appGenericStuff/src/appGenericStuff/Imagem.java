@@ -1,9 +1,10 @@
 package appGenericStuff;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class Imagem {
 	private static final String CAMINHO_RELATIVO = "src" + System.getProperty("file.separator");
@@ -13,41 +14,78 @@ public class Imagem {
 	
 	public Imagem(String caminho) throws IOException {
 		caminho = CAMINHO_RELATIVO + caminho;
-		try(BufferedReader leia = new BufferedReader(new FileReader(caminho))) {
-			String linha = leia.readLine();
-			int aux = 0, auxLinha = 0;
-			while(linha != null) {
-				if(!linha.substring(0, 1).equals("#")) {
-					switch(aux) {
-					case 0:
-						if(linha.substring(0, 2).equals("P1")) {
-							aux++;
-							break;
-						}
-						else {
-							System.out.println("Imagem não é do tipo P1(binária)");
-							return;
-						}
-					case 1:
-						String tamanho[] = linha.split(" ");
-						larguraImagemOriginal = Integer.parseInt(tamanho[0]);
-						alturaImagemOriginal = Integer.parseInt(tamanho[1]);
-						imagemOriginal = new int[alturaImagemOriginal][larguraImagemOriginal];
-						aux++;
-						break;
-					default: 
-						tamanho = linha.split("");
-						for(int i = 0; i < larguraImagemOriginal; i++)
-							imagemOriginal[auxLinha][i] = Integer.parseInt(tamanho[i]);
-						auxLinha++;
-						break;
-					}
-				}
+		 try{
+            FileReader arquivo = new FileReader(caminho);
+            Scanner leitor = new Scanner(arquivo);
+            int contaLinhas = 0, auxColuna = 0, auxLinha = 0;
+            while(leitor.hasNextLine()){
+                String verificaString = leitor.nextLine();
+                if(!verificaString.substring(0,1).equals("#")){
+                   switch(contaLinhas){
+                        case 0:
+                        	  if(verificaString.substring(0, 2).equals("P1")) {
+                                  contaLinhas++;
+                                  break;
+                              }
+                              else {
+                                  System.out.println("Imagem não é do tipo P1(binária)");
+                                  return;
+                              }
+                        case 1:
+                            String[] textoSeparado = verificaString.split(" ");
+                            larguraImagemOriginal = Integer.parseInt(textoSeparado[0]);
+                            alturaImagemOriginal = Integer.parseInt(textoSeparado[1]);
+                            imagemOriginal = new int [alturaImagemOriginal][larguraImagemOriginal];
+                            contaLinhas++;
+                            break;
+                        default:
+                        	System.out.println("\n" + verificaString);
+                        	 char[] myChars = verificaString.toCharArray();
+                             int i = 0, j = auxColuna;
+                        	 while(i < verificaString.length() && j < larguraImagemOriginal) {
+                        		 imagemOriginal[auxLinha][j] = myChars[i] - '0';
+                        		 System.out.print((imagemOriginal[auxLinha][j]));
+                        		 i++;
+                        		 j++;
+                        	 }
+                        	 if(j == larguraImagemOriginal) {
+                        		 auxLinha++;
+                        		 j = 0;
+                        		 while(i < verificaString.length() && j < larguraImagemOriginal) {
+                            		 imagemOriginal[auxLinha][j] = myChars[i] - '0';
+                            		 System.out.print((imagemOriginal[auxLinha][j]));
+                            		 i++;
+                            		 j++;
+                            	 }
+                        		 auxColuna = j;
+                        	 }
+                        	 else {
+                        		 auxColuna = j;
+                        	 }
+                        	 System.out.println("");
+                            break;
+                    }
+                }
+            }
+            leitor.close();
+        }catch(Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+		 System.out.println("------------------------------------------------");
+		 for(int a = 0; a < alturaImagemOriginal; a++) {
+				for(int b = 0; b < larguraImagemOriginal; b++)
+					System.out.print(imagemOriginal[a][b]);
+				System.out.println();
 			}
-		} catch(FileNotFoundException e) {
-			System.out.println("Error: " + e.getMessage());
+}
+	
+	/*public void imprimirMatriz() {
+		for(int i = 0; i < alturaImagemOriginal; i++) {
+			for(int j = 0; j < larguraImagemOriginal; j++)
+				System.out.print(imagemOriginal[i][j]);
+			System.out.println();
 		}
-	}
+	}*/
 	
 	public int[][] dilatarImagemP1(int[][] imagem, int[][] mascara) {
 		int altura = imagem.length;
@@ -297,7 +335,6 @@ public class Imagem {
 		int [][] novaImagem = dilatarImagemP1(imagemErodida, mascara);
 		return novaImagem;
 	}
-
 	
 	public int getLarguraImagemOriginal() {
 		return larguraImagemOriginal;
@@ -323,4 +360,17 @@ public class Imagem {
 		this.imagemOriginal = imagemOriginal;
 	}
 
+	public void salvarImagemP1(int[][] imagem, String nomeDaImagem) {
+		try(PrintWriter gravarArquivo = new PrintWriter(new FileWriter(CAMINHO_RELATIVO + nomeDaImagem, false))) {
+			gravarArquivo.println("P1" + "\n #Desenvolvida pela Generic Stuff\n" + imagem[0].length + " " + imagem.length);
+			for(int i = 0; i < imagem.length; i++) {
+				for(int j = 0; j < imagem[0].length; j++)
+					gravarArquivo.print(imagem[i][j]);
+				gravarArquivo.println();
+			}
+			gravarArquivo.close();
+		} catch(IOException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
 }
