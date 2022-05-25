@@ -39,12 +39,10 @@ public class Imagem {
                             contaLinhas++;
                             break;
                         default:
-                        	System.out.println("\n" + verificaString);
                         	 char[] myChars = verificaString.toCharArray();
                              int i = 0, j = auxColuna;
                         	 while(i < verificaString.length() && j < larguraImagemOriginal) {
                         		 imagemOriginal[auxLinha][j] = myChars[i] - '0';
-                        		 System.out.print((imagemOriginal[auxLinha][j]));
                         		 i++;
                         		 j++;
                         	 }
@@ -53,7 +51,6 @@ public class Imagem {
                         		 j = 0;
                         		 while(i < verificaString.length() && j < larguraImagemOriginal) {
                             		 imagemOriginal[auxLinha][j] = myChars[i] - '0';
-                            		 System.out.print((imagemOriginal[auxLinha][j]));
                             		 i++;
                             		 j++;
                             	 }
@@ -62,7 +59,6 @@ public class Imagem {
                         	 else {
                         		 auxColuna = j;
                         	 }
-                        	 System.out.println("");
                             break;
                     }
                 }
@@ -71,22 +67,8 @@ public class Imagem {
         }catch(Exception e){
             System.out.println("Error: " + e.getMessage());
         }
-		 System.out.println("------------------------------------------------");
-		 for(int a = 0; a < alturaImagemOriginal; a++) {
-				for(int b = 0; b < larguraImagemOriginal; b++)
-					System.out.print(imagemOriginal[a][b]);
-				System.out.println();
-			}
 }
-	
-	/*public void imprimirMatriz() {
-		for(int i = 0; i < alturaImagemOriginal; i++) {
-			for(int j = 0; j < larguraImagemOriginal; j++)
-				System.out.print(imagemOriginal[i][j]);
-			System.out.println();
-		}
-	}*/
-	
+		
 	public int[][] dilatarImagemP1(int[][] imagem, int[][] mascara) {
 		int altura = imagem.length;
 		int largura = imagem[0].length;
@@ -197,18 +179,22 @@ public class Imagem {
                     	else if(kx + 1 == larguraMascara) {
                     		ky++;
                     		kx = 0;
-                    		m++;
+                    		if(m + 1 < altura) m++;
+                    		else break;
                     		n = x;
                     		continue;
                     	}
                     	kx++;
-                    	n++;
+                    	if(n < largura)n++;
+                    	else break;
                     }
                 	if(flag) {
-                		novaImagem[y + alturaCentro][x + larguraCentro] = 1;
-                		novaImagem[y + alturaCentro][x + larguraCentro + 1] = 1;
-                		novaImagem[y + alturaCentro + 1][x + larguraCentro] = 1;
-                		novaImagem[y + alturaCentro + 1][x + larguraCentro + 1] = 1;
+                		if((y + alturaCentro + 1) < altura && (x + larguraCentro + 1) < largura) {
+                			novaImagem[y + alturaCentro][x + larguraCentro] = 1;
+                    		novaImagem[y + alturaCentro][x + larguraCentro + 1] = 1;
+                    		novaImagem[y + alturaCentro + 1][x + larguraCentro] = 1;
+                    		novaImagem[y + alturaCentro + 1][x + larguraCentro + 1] = 1;
+                		}
                 	}
                 	flag = false;
                 }
@@ -235,16 +221,20 @@ public class Imagem {
                     	else if(kx + 1 == larguraMascara) {
                     		ky++;
                     		kx = 0;
-                    		m++;
+                    		if(m + 1 < altura) m++;
+                    		else break;
                     		n = x;
                     		continue;
                     	}
                     	kx++;
-                    	n++;
+                    	if(n + 1 < largura) n++;
+                    	else break;
                     }
                 	if(flag) {
-                		novaImagem[y + alturaCentro][x + larguraCentro] = 1;
-                		novaImagem[y + alturaCentro + 1][x + larguraCentro] = 1;
+                		if((y + alturaCentro + 1) < altura && x + larguraCentro < 1) {
+                			novaImagem[y + alturaCentro][x + larguraCentro] = 1;
+                    		novaImagem[y + alturaCentro + 1][x + larguraCentro] = 1;
+                		}	
                 	}
                 	flag = false;
                 }
@@ -271,16 +261,20 @@ public class Imagem {
                     	else if(kx + 1 == larguraMascara) {
                     		ky++;
                     		kx = 0;
-                    		m++;
+                    		if(m + 1 < altura) m++;
+                    		else break;
                     		n = x;
                     		continue;
                     	}
                     	kx++;
-                    	n++;
+                    	if(n + 1 < largura) n++;
+                    	else break;
                     }
                 	if(flag) {
-                		novaImagem[y + alturaCentro][x + larguraCentro] = 1;
-                		novaImagem[y + alturaCentro][x + larguraCentro + 1] = 1;
+                		if((y + alturaCentro) < altura && (x + larguraCentro + 1) < largura) {
+                			novaImagem[y + alturaCentro][x + larguraCentro] = 1;
+                    		novaImagem[y + alturaCentro][x + larguraCentro + 1] = 1;
+                		}	
                 	}
                 	flag = false;
                 }
@@ -307,15 +301,18 @@ public class Imagem {
                     	else if(kx + 1 == larguraMascara) {
                     		ky++;
                     		kx = 0;
-                    		m++;
+                    		if(m + 1 < altura) m++;
+                    		else break;
                     		n = x;
                     		continue;
                     	}
                     	kx++;
-                    	n++;
+                    	if(n + 1 < largura) n++;
+                    	else break;
                     }
                 	if(flag) {
-                		novaImagem[y + alturaCentro][x + larguraCentro] = 1;
+                		if(x + larguraCentro < largura && y + alturaCentro < altura)
+                			novaImagem[y + alturaCentro][x + larguraCentro] = 1;
                 	}
                 	flag = false;
                 }
