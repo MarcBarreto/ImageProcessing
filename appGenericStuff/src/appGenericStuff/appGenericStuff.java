@@ -2,7 +2,7 @@ package appGenericStuff;
 
 public class appGenericStuff {
 	public static void main(String[] argv) {
-		int[][] matrizMaior  = new int[5][6];
+		/*int[][] matrizMaior  = new int[5][6];
 		int[][] matrizMenor = new int[3][3];
 		for(int i = 0; i < matrizMaior.length; i++) {
 			for(int j = 0; j < matrizMaior[0].length; j++) {
@@ -78,22 +78,24 @@ public class appGenericStuff {
             	flag = false;
             }
         }
+        System.out.println("Imagem");
         for(int i = 0; i < matrizMaior.length; i++) {
         	for(int j = 0; j < matrizMaior[0].length; j++)
         		System.out.printf("%d\t", matrizMaior[i][j]);
         	System.out.println();
         }
-        System.out.println("erodida");
+        System.out.println("Imagem após a operações morfológica");
         for(int i = 0; i < novaImagem.length; i++) {
         	for(int j = 0; j < novaImagem[0].length; j++)
         		System.out.printf("%d\t", novaImagem[i][j]);
         	System.out.println();
         }
+        System.out.println("Máscara");
         System.out.println("-------------------------------------");
         for(int i = 0; i < matrizMenor.length; i++) {
         	for(int j = 0; j < matrizMenor[0].length; j++)
         		System.out.printf("%d\t", matrizMenor[i][j]);
         	System.out.println();
-        }
+        }*/
     }
 }

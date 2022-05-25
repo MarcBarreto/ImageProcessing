@@ -7,9 +7,9 @@ import java.io.IOException;
 
 public class Imagem {
 	private static final String CAMINHO_RELATIVO = "src" + System.getProperty("file.separator");
-	private int largura;
-	private int altura;
-	private int[][] imagem;
+	private int larguraImagemOriginal;
+	private int alturaImagemOriginal;
+	private int[][] imagemOriginal;
 	
 	public Imagem(String caminho) throws IOException {
 		caminho = CAMINHO_RELATIVO + caminho;
@@ -30,15 +30,15 @@ public class Imagem {
 						}
 					case 1:
 						String tamanho[] = linha.split(" ");
-						largura = Integer.parseInt(tamanho[0]);
-						altura = Integer.parseInt(tamanho[1]);
-						imagem = new int[altura][largura];
+						larguraImagemOriginal = Integer.parseInt(tamanho[0]);
+						alturaImagemOriginal = Integer.parseInt(tamanho[1]);
+						imagemOriginal = new int[alturaImagemOriginal][larguraImagemOriginal];
 						aux++;
 						break;
 					default: 
 						tamanho = linha.split("");
-						for(int i = 0; i < largura; i++)
-							imagem[auxLinha][i] = Integer.parseInt(tamanho[i]);
+						for(int i = 0; i < larguraImagemOriginal; i++)
+							imagemOriginal[auxLinha][i] = Integer.parseInt(tamanho[i]);
 						auxLinha++;
 						break;
 					}
@@ -49,7 +49,9 @@ public class Imagem {
 		}
 	}
 	
-	public int[][] dilatarImagemP1(int[][] mascara) {
+	public int[][] dilatarImagemP1(int[][] imagem, int[][] mascara) {
+		int altura = imagem.length;
+		int largura = imagem[0].length;
 		int alturaMascara = mascara.length;
 		int larguraMascara = mascara[0].length;
 		int[][] mascaraRefletida = new int[alturaMascara][larguraMascara];
@@ -124,7 +126,9 @@ public class Imagem {
 		return imagemDilatada;
 	}
 	
-	public int[][] erodirImagemP1(int[][] mascara) {
+	public int[][] erodirImagemP1(int[][] imagem, int[][] mascara) {
+		int altura = imagem.length;
+		int largura = imagem[0].length;
 		int[][] novaImagem = new int[altura][largura];
 		int alturaMascara = mascara.length, larguraMascara = mascara[0].length;
 		boolean linhaPar = false, colunaPar = false;
@@ -281,4 +285,42 @@ public class Imagem {
         }
 		return novaImagem;
 	}
+	
+	public int[][] realizarFechamentoImagemP1(int[][] imagem, int[][] mascara) {
+		int[][] imagemDilatada = dilatarImagemP1(imagem, mascara);
+		int[][] novaImagem = erodirImagemP1(imagemDilatada, mascara);
+		return novaImagem;
+	}
+	
+	public int[][] realizarAberturaImagemP1(int[][] imagem, int[][] mascara) {
+		int[][] imagemErodida = erodirImagemP1(imagem, mascara);
+		int [][] novaImagem = dilatarImagemP1(imagemErodida, mascara);
+		return novaImagem;
+	}
+
+	
+	public int getLarguraImagemOriginal() {
+		return larguraImagemOriginal;
+	}
+
+	public void setLarguraImagemOriginal(int larguraImagemOriginal) {
+		this.larguraImagemOriginal = larguraImagemOriginal;
+	}
+
+	public int getAlturaImagemOriginal() {
+		return alturaImagemOriginal;
+	}
+
+	public void setAlturaImagemOriginal(int alturaImagemOriginal) {
+		this.alturaImagemOriginal = alturaImagemOriginal;
+	}
+
+	public int[][] getImagemOriginal() {
+		return imagemOriginal;
+	}
+
+	public void setImagemOriginal(int[][] imagemOriginal) {
+		this.imagemOriginal = imagemOriginal;
+	}
+
 }
